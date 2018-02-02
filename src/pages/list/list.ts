@@ -1,37 +1,56 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
-export class ListPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+export class ListPage implements OnInit, OnDestroy {
+  messages = new Array<string>();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+  constructor() {
+    this.messages.push('constructor');
   }
 
-  itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(ListPage, {
-      item: item
-    });
+  ngOnInit(): void {
+    this.messages.push('ng on init')
+  }
+
+  ngOnDestroy(): void {
+    this.messages.push('on destroy');
+    console.log('messages: ', this.messages);
+  }
+  ionViewDidLoad(): void {
+    this.messages.push('ion view did load');
+  }
+
+  ionViewWillEnter(): void {
+    this.messages.push('ionViewWillEnter');
+  }
+
+  ionViewDidEnter(): void {
+    this.messages.push('ionViewDidEnter');
+  }
+
+  ionViewWillLeave(): void {
+    this.messages.push('ionViewWillLeave');
+  }
+
+  ionViewDidLeave(): void {
+    this.messages.push('ionViewDidLeave');
+  }
+
+  ionViewWillUnload(): void {
+    this.messages.push('ionViewWillUnload');
+  }
+
+  ionViewCanEnter(): boolean {
+    this.messages.push('ionViewCanEnter');
+    return true;
+  }
+
+  ionViewCanLeave(): boolean {
+    this.messages.push('ionViewCanLeave');
+    return true;
   }
 }
